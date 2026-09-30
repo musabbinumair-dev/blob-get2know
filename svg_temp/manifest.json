@@ -1,0 +1,278 @@
+[
+  {
+    "file": "heart-pink-small.svg",
+    "source": "a_clean_flat_cute_pastel_mobile_app_onboarding.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#F9AECC"
+  },
+  {
+    "file": "crescent-yellow-large.svg",
+    "source": "a_clean_flat_cute_pastel_mobile_app_onboarding.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#FAD86A"
+  },
+  {
+    "file": "starburst-blue-decorative.svg",
+    "source": "a_clean_flat_cute_pastel_mobile_app_onboarding.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#A9BDF5"
+  },
+  {
+    "file": "cross-olive-decorative.svg",
+    "source": "a_clean_flat_cute_pastel_mobile_app_onboarding.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#A5B671"
+  },
+  {
+    "file": "starburst-yellow-small.svg",
+    "source": "a_clean_flat_cute_pastel_mobile_app_onboarding.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#FAD768"
+  },
+  {
+    "file": "avatar-blob-pink-01.svg",
+    "source": "a_flat_cute_colorful_mobile_app_ui_screen_full.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#F8A6BE"
+  },
+  {
+    "file": "avatar-blob-blue-01.svg",
+    "source": "a_flat_cute_colorful_mobile_app_ui_screen_full.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#93ADF9"
+  },
+  {
+    "file": "avatar-blob-olive-01.svg",
+    "source": "a_flat_cute_colorful_mobile_app_ui_screen_full.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#B1BD6C"
+  },
+  {
+    "file": "avatar-blob-blue-02.svg",
+    "source": "a_flat_cute_colorful_mobile_app_ui_screen_full.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#93ADF9"
+  },
+  {
+    "file": "avatar-blob-yellow-01.svg",
+    "source": "a_flat_cute_colorful_mobile_app_ui_screen_full.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#FBDF6E"
+  },
+  {
+    "file": "avatar-blob-pink-02.svg",
+    "source": "a_flat_cute_colorful_mobile_app_ui_screen_full.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#F9A9C1"
+  },
+  {
+    "file": "crescent-yellow-join.svg",
+    "source": "a_flat_cute_pastel_app_mobile_ui_screen_illustrat.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#FCD565"
+  },
+  {
+    "file": "starburst-blue-join.svg",
+    "source": "a_flat_cute_pastel_app_mobile_ui_screen_illustrat.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#A2B9F9"
+  },
+  {
+    "file": "cross-olive-join.svg",
+    "source": "a_flat_cute_pastel_app_mobile_ui_screen_illustrat.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#A3B36B"
+  },
+  {
+    "file": "avatar-blob-blue-join.svg",
+    "source": "a_flat_cute_pastel_app_mobile_ui_screen_illustrat.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#A3BAFA"
+  },
+  {
+    "file": "answer-card-pink-reveal.svg",
+    "source": "a_vertical_smartphone_style_app_ui_screenshot_on_a.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#F6A9D4"
+  },
+  {
+    "file": "answer-card-blue-reveal.svg",
+    "source": "a_vertical_smartphone_style_app_ui_screenshot_on_a.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#ABBAF5"
+  },
+  {
+    "file": "starburst-yellow-match.svg",
+    "source": "a_vertical_smartphone_style_app_ui_screenshot_on_a.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#F9D571"
+  },
+  {
+    "file": "crescent-yellow-reveal.svg",
+    "source": "a_vertical_smartphone_style_app_ui_screenshot_on_a.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#F9D573"
+  },
+  {
+    "file": "heart-pink-reveal.svg",
+    "source": "a_vertical_smartphone_style_app_ui_screenshot_on_a.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#F6CCE5"
+  },
+  {
+    "file": "starburst-blue-reveal.svg",
+    "source": "a_vertical_smartphone_style_app_ui_screenshot_on_a.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#AAB9F4"
+  },
+  {
+    "file": "cross-olive-reveal.svg",
+    "source": "a_vertical_smartphone_style_app_ui_screenshot_on_a.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#A0AB73"
+  },
+  {
+    "file": "answer-card-pink-guess.svg",
+    "source": "a_flat_colorful_mobile_app_ui_screenshot_style_il.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#F9A4D4"
+  },
+  {
+    "file": "answer-card-yellow-guess.svg",
+    "source": "a_flat_colorful_mobile_app_ui_screenshot_style_il.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#F6D568"
+  },
+  {
+    "file": "answer-card-cream-guess.svg",
+    "source": "a_flat_colorful_mobile_app_ui_screenshot_style_il.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#F1ECE1"
+  },
+  {
+    "file": "answer-card-olive-guess.svg",
+    "source": "a_flat_colorful_mobile_app_ui_screenshot_style_il.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#9DAE6D"
+  },
+  {
+    "file": "starburst-yellow-guess.svg",
+    "source": "a_flat_colorful_mobile_app_ui_screenshot_style_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#F8D767"
+  },
+  {
+    "file": "crescent-yellow-guess.svg",
+    "source": "a_flat_colorful_mobile_app_ui_screenshot_style_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#F9D664"
+  },
+  {
+    "file": "heart-pink-guess.svg",
+    "source": "a_flat_colorful_mobile_app_ui_screenshot_style_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#F9A6D5"
+  },
+  {
+    "file": "starburst-blue-guess.svg",
+    "source": "a_flat_colorful_mobile_app_ui_screenshot_style_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#95B8FC"
+  },
+  {
+    "file": "cross-olive-guess.svg",
+    "source": "a_flat_colorful_mobile_app_ui_screenshot_style_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#9DAD6B"
+  },
+  {
+    "file": "heart-pink-large-score.svg",
+    "source": "a_clean_flat_pastel_mobile_app_ui_screenshot_il.png",
+    "viewBox": "0 0 300 300",
+    "fill": "#FAACD4"
+  },
+  {
+    "file": "heart-pink-small-score.svg",
+    "source": "a_clean_flat_pastel_mobile_app_ui_screenshot_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#FCA4D0"
+  },
+  {
+    "file": "starburst-blue-score.svg",
+    "source": "a_clean_flat_pastel_mobile_app_ui_screenshot_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#97B4FD"
+  },
+  {
+    "file": "cross-olive-score.svg",
+    "source": "a_clean_flat_pastel_mobile_app_ui_screenshot_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#A5B46E"
+  },
+  {
+    "file": "starburst-yellow-score.svg",
+    "source": "a_clean_flat_pastel_mobile_app_ui_screenshot_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#FDDE64"
+  },
+  {
+    "file": "teardrop-blue-score.svg",
+    "source": "a_clean_flat_pastel_mobile_app_ui_screenshot_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#99B6FD"
+  },
+  {
+    "file": "cross-olive-stat-score.svg",
+    "source": "a_clean_flat_pastel_mobile_app_ui_screenshot_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#A4B36D"
+  },
+  {
+    "file": "crescent-yellow-score.svg",
+    "source": "a_clean_flat_pastel_mobile_app_ui_screenshot_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#FDDF65"
+  },
+  {
+    "file": "heart-pink-score.svg",
+    "source": "a_clean_flat_pastel_mobile_app_ui_screenshot_il.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#FBA2CF"
+  },
+  {
+    "file": "starburst-yellow-memory.svg",
+    "source": "a_vertical_smartphone_app_ui_screenshot_clean_fla.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#FCD45B"
+  },
+  {
+    "file": "crescent-blue-memory.svg",
+    "source": "a_vertical_smartphone_app_ui_screenshot_clean_fla.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#9ABBFD"
+  },
+  {
+    "file": "starburst-blue-memory.svg",
+    "source": "a_vertical_smartphone_app_ui_screenshot_clean_fla.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#9CBDFD"
+  },
+  {
+    "file": "heart-pink-memory.svg",
+    "source": "a_vertical_smartphone_app_ui_screenshot_clean_fla.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#FB9BC7"
+  },
+  {
+    "file": "crescent-yellow-memory.svg",
+    "source": "a_vertical_smartphone_app_ui_screenshot_clean_fla.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#FDDE69"
+  },
+  {
+    "file": "cross-olive-memory.svg",
+    "source": "a_vertical_smartphone_app_ui_screenshot_clean_fla.png",
+    "viewBox": "0 0 200 200",
+    "fill": "#8FA661"
+  }
+]
