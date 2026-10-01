@@ -14,11 +14,11 @@ export const PillButton: React.FC<PillButtonProps> = ({
 }) => {
   const variantStyles = variant === 'black'
     ? 'bg-[#1A1C22] text-white hover:bg-[#2A2C34]'
-    : 'bg-[#FAF6EA] text-[#1A1C22] border border-[#1A1C22]/10 hover:bg-[#F3EEDC]';
+    : 'bg-[#FAF6EA] text-[#1A1C22] hover:bg-[#F3EEDC]';
 
   return (
     <button
-      className={`btn-press w-full py-[18px] px-8 rounded-full font-bold text-[18px] leading-tight flex items-center justify-center transition-all ${variantStyles} ${className}`}
+      className={`btn-press w-full h-[56px] rounded-full font-bold text-[17px] leading-tight flex items-center justify-center transition-all ${variantStyles} ${className}`}
       {...props}
     >
       {children}

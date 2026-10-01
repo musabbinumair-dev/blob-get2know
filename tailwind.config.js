@@ -32,7 +32,8 @@ export default {
         }
       },
       fontFamily: {
-        nunito: ['Nunito', 'sans-serif'],
+        sans: ['Nunito', 'system-ui', '-apple-system', 'sans-serif'],
+        nunito: ['Nunito', 'system-ui', '-apple-system', 'sans-serif'],
       },
       fontWeight: {
         body: '400',
