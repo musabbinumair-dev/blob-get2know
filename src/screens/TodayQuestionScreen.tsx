@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Screen } from '../components/Screen';
 import { PillButton } from '../components/PillButton';
 import { BottomNav, NavTab } from '../components/BottomNav';
+import { TopBar } from '../components/TopBar';
 
 interface TodayQuestionScreenProps {
   onOpenSettings?: () => void;
@@ -53,7 +54,7 @@ export const TodayQuestionScreen: React.FC<TodayQuestionScreenProps> = ({
   };
 
   return (
-    <Screen bg="#F8D56B">
+    <Screen bg="#F8D56B" className="h-[100dvh] sm:h-[844px]">
       {/* ---------------- DECORATIVE BACKGROUND BLOBS ---------------- */}
 
       {/* Top-Left: Pink Heart */}
@@ -123,54 +124,13 @@ export const TodayQuestionScreen: React.FC<TodayQuestionScreenProps> = ({
 
 
       {/* ---------------- MAIN CONTENT ---------------- */}
-      <div className="relative z-10 flex flex-col justify-between h-full min-h-[100dvh] sm:min-h-0 sm:h-full pt-6 pb-1 select-none">
-        <div className="px-7 sm:px-8">
-          {/* Top Bar: Duo Icon | Streak 12 | Settings Gear */}
-          <div className="flex items-center justify-between w-full">
-            {/* Duo Icon with rays */}
-            <div className="relative w-[38px] h-[38px] flex items-center justify-center">
-              {/* Rays around silhouettes */}
-              <div className="absolute -top-[1px] -left-[1px] w-[5px] h-[2px] bg-[#1A1C22]/30 rounded-full rotate-[-45deg]" />
-              <div className="absolute -top-[1px] -right-[1px] w-[5px] h-[2px] bg-[#1A1C22]/30 rounded-full rotate-[45deg]" />
-              <div className="absolute -bottom-[1px] -left-[1px] w-[5px] h-[2px] bg-[#1A1C22]/30 rounded-full rotate-[45deg]" />
-              <div className="absolute -bottom-[1px] -right-[1px] w-[5px] h-[2px] bg-[#1A1C22]/30 rounded-full rotate-[-45deg]" />
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="#1A1C22">
-                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-              </svg>
-            </div>
+      <div className="relative z-10 flex flex-col justify-between h-full overflow-y-auto overflow-x-hidden pt-6 pb-[84px] select-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div>
+          {/* Unified Top Bar: Duo Icon | Streak 12 | Settings Gear */}
+          <TopBar streak={12} onSettingsClick={onOpenSettings} />
 
-            {/* Streak Pill */}
-            <div className="bg-[#1A1C22] h-[34px] px-3.5 rounded-full flex items-center gap-1.5 shadow-none">
-              <span className="text-[16px] leading-none select-none">🔥</span>
-              <span className="text-white font-extrabold text-[15px] tracking-tight leading-none">
-                12
-              </span>
-            </div>
-
-            {/* Settings Gear Button */}
-            <button
-              type="button"
-              onClick={onOpenSettings}
-              aria-label="Settings"
-              className="btn-press w-[38px] h-[38px] rounded-full border-[1.5px] border-dashed border-[#1A1C22]/50 flex items-center justify-center hover:bg-[#1A1C22]/5 transition-colors focus:outline-none cursor-pointer"
-            >
-              <svg
-                width="19"
-                height="19"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#1A1C22"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="3" />
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Question Heading */}
+          <div className="px-7 sm:px-8">
+            {/* Question Heading */}
           <div className="mt-5">
             <h2 className="text-[17px] sm:text-[18px] font-bold text-[#1A1C22]/80 tracking-tight">
               Today’s question
@@ -279,9 +239,12 @@ export const TodayQuestionScreen: React.FC<TodayQuestionScreenProps> = ({
               Saved! Waiting for your friend’s answer ✨
             </p>
           )}
+          </div>
         </div>
 
         {/* Bottom Navigation Dock */}
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 pb-1 z-30 pointer-events-auto">
         <BottomNav activeTab={activeTab} onTabChange={handleTabChange} className="mb-1" />
       </div>
     </Screen>

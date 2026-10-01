@@ -10,7 +10,18 @@ import { NavTab } from './components/BottomNav';
 type ScreenType = 'welcome' | 'create-profile' | 'invite' | 'join-code' | 'today' | 'locked';
 
 export function App() {
-  const [currentScreen, setCurrentScreen] = useState<ScreenType>('welcome');
+  const [currentScreen, setCurrentScreen] = useState<ScreenType>(() => {
+    if (typeof window !== 'undefined') {
+      const param = new URLSearchParams(window.location.search).get('screen') as ScreenType | null;
+      if (
+        param &&
+        ['welcome', 'create-profile', 'invite', 'join-code', 'today', 'locked'].includes(param)
+      ) {
+        return param;
+      }
+    }
+    return 'locked';
+  });
   const [profile, setProfile] = useState<UserProfile>({
     avatarId: 1,
     name: '',

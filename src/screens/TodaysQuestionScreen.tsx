@@ -334,8 +334,8 @@ export const TodaysQuestionScreen: React.FC<TodaysQuestionScreenProps> = ({
 
 
         {/* ---------------- BOTTOM NAV ---------------- */}
-        <div className="absolute left-[6px] top-[768px] w-[377px] z-30">
-          <BottomNav activeTab="today" />
+        <div className="absolute bottom-0 left-0 right-0 pb-1 z-30 pointer-events-auto">
+          <BottomNav activeTab="today" className="mb-1" />
         </div>
       </div>
     </div>
