@@ -7,6 +7,7 @@ interface InviteFriendScreenProps {
   inviteCode?: string;
   onBack: () => void;
   onFriendJoined?: () => void;
+  onEnterGame?: () => void;
 }
 
 export function generateInviteCode(): string {
@@ -26,6 +27,7 @@ export const InviteFriendScreen: React.FC<InviteFriendScreenProps> = ({
   inviteCode: initialCode,
   onBack,
   onFriendJoined,
+  onEnterGame,
 }) => {
   const [code] = useState<string>(() => initialCode || generateInviteCode());
   const [copiedCode, setCopiedCode] = useState<boolean>(false);
@@ -338,10 +340,10 @@ export const InviteFriendScreen: React.FC<InviteFriendScreenProps> = ({
 
         {/* Temporary Dev Button to simulate friend joining */}
         <div className="mt-6 flex flex-col items-center gap-2 w-full">
-          {friendJoined && onFriendJoined && (
+          {friendJoined && (onEnterGame || onFriendJoined) && (
             <button
               type="button"
-              onClick={onFriendJoined}
+              onClick={onEnterGame || onFriendJoined}
               className="btn-press w-full max-w-[340px] h-[52px] rounded-full font-bold text-[17px] bg-[#1A1C22] text-white flex items-center justify-center cursor-pointer shadow-md transition-all"
             >
               Continue to Today’s Question →

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Screen } from '../components/Screen';
-import { PillButton } from '../components/PillButton';
 import { BottomNav, NavTab } from '../components/BottomNav';
 
 interface AnswerLockedScreenProps {
@@ -18,14 +17,26 @@ export const AnswerLockedScreen: React.FC<AnswerLockedScreenProps> = ({
   onNavigateTab,
   onPlayer2Answered,
 }) => {
-  const [nudged, setNudged] = useState<boolean>(false);
-  const [nudgeCount, setNudgeCount] = useState<number>(0);
+  const [toastMessage, setToastMessage] = useState<string>('');
+  const [nudgeCooldown, setNudgeCooldown] = useState<number>(0);
   const [activeTab, setActiveTab] = useState<NavTab>('today');
 
+  // Cooldown countdown effect for Nudge button
+  useEffect(() => {
+    if (nudgeCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setNudgeCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [nudgeCooldown]);
+
   const handleNudge = () => {
-    setNudged(true);
-    setNudgeCount((prev) => prev + 1);
-    setTimeout(() => setNudged(false), 2400);
+    if (nudgeCooldown > 0) return;
+    setToastMessage('Nudge sent 👋');
+    setNudgeCooldown(30);
+    setTimeout(() => {
+      setToastMessage('');
+    }, 2500);
   };
 
   const handleTabChange = (tab: NavTab) => {
@@ -33,280 +44,287 @@ export const AnswerLockedScreen: React.FC<AnswerLockedScreenProps> = ({
     onNavigateTab?.(tab);
   };
 
+  const handleEditClick = () => {
+    localStorage.setItem('today_answer_locked', 'false');
+    onEditAnswer();
+  };
+
   return (
-    <Screen bg="#FAF6EA">
-      {/* ---------------- DECORATIVE BACKGROUND BLOBS ---------------- */}
+    <Screen bg="#F8F3E3">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 animate-pop">
+          <div className="bg-[#1C1F23] text-white px-5 py-2.5 rounded-full font-bold text-[15px] shadow-2xl flex items-center gap-2">
+            <span>{toastMessage}</span>
+          </div>
+        </div>
+      )}
 
-      {/* Top-Left: Pink Heart */}
-      <div
-        className="absolute top-[130px] left-[18px] pointer-events-none select-none z-0"
-        style={{ width: '74px', height: '74px' }}
-      >
-        <img
-          src="/assets/blobs/heart-pink-small.svg"
-          alt=""
-          className="w-full h-full object-contain rotate-[-12deg] select-none pointer-events-none"
-          draggable={false}
-        />
-      </div>
+      {/* ================= BOTTOM DECORATIVE CORNER PNGs ================= */}
 
-      {/* Top-Right: Blue Starburst */}
-      <div
-        className="absolute top-[120px] right-[24px] pointer-events-none select-none z-0"
-        style={{ width: '78px', height: '78px' }}
-      >
-        <img
-          src="/assets/blobs/starburst-blue-join.svg"
-          alt=""
-          className="w-full h-full object-contain rotate-[15deg] select-none pointer-events-none"
-          draggable={false}
-        />
-      </div>
+      {/* Yellow Crescent (bottom-left): 61x68 at x 3, y 694 */}
+      <img
+        src="/assets/waiting/file_00000000da708208827f1ef9e800d5df.png"
+        alt=""
+        className="absolute object-contain pointer-events-none select-none z-0"
+        style={{
+          left: '3px',
+          bottom: '76px',
+          width: '61px',
+          height: '68px',
+        }}
+        draggable={false}
+      />
 
-      {/* Right Side: Olive Cross */}
-      <div
-        className="absolute top-[230px] right-[26px] pointer-events-none select-none z-0"
-        style={{ width: '66px', height: '70px' }}
-      >
-        <img
-          src="/assets/blobs/cross-olive-decorative.svg"
-          alt=""
-          className="w-full h-full object-contain rotate-[22deg] select-none pointer-events-none"
-          draggable={false}
-        />
-      </div>
+      {/* Pink Heart Right (bottom-right cropped): 54x60 at x 336, y 708 */}
+      <img
+        src="/assets/waiting/file_000000006d808211a5100a84a56110bf.png"
+        alt=""
+        className="absolute object-contain pointer-events-none select-none z-0"
+        style={{
+          right: '-2px',
+          bottom: '68px',
+          width: '54px',
+          height: '60px',
+        }}
+        draggable={false}
+      />
 
-      {/* Bottom-Left: Yellow Crescent Moon */}
-      <div
-        className="absolute bottom-[100px] left-[2px] pointer-events-none select-none z-0"
-        style={{ width: '84px', height: '90px' }}
-      >
-        <img
-          src="/assets/blobs/crescent-yellow-join.svg"
-          alt=""
-          className="w-full h-full object-contain rotate-[-15deg] select-none pointer-events-none"
-          draggable={false}
-        />
-      </div>
-
-      {/* Bottom-Right: Pink Heart */}
-      <div
-        className="absolute bottom-[90px] right-[10px] pointer-events-none select-none z-0"
-        style={{ width: '82px', height: '82px' }}
-      >
-        <img
-          src="/assets/blobs/heart-pink-small.svg"
-          alt=""
-          className="w-full h-full object-contain rotate-[10deg] select-none pointer-events-none"
-          draggable={false}
-        />
-      </div>
-
-
-      {/* ---------------- MAIN CONTENT ---------------- */}
-      <div className="relative z-10 flex flex-col justify-between h-full min-h-[100dvh] pt-8 select-none">
-        <div className="px-7 sm:px-8">
-          {/* Top Bar: Duo Icon | Streak 12 | Settings Gear */}
-          <div className="flex items-center justify-between w-full">
-            {/* Duo Icon with rays */}
-            <div className="relative w-[38px] h-[38px] flex items-center justify-center">
-              <div className="absolute -top-[1px] -left-[1px] w-[5px] h-[2px] bg-[#1A1C22]/30 rounded-full rotate-[-45deg]" />
-              <div className="absolute -top-[1px] -right-[1px] w-[5px] h-[2px] bg-[#1A1C22]/30 rounded-full rotate-[45deg]" />
-              <div className="absolute -bottom-[1px] -left-[1px] w-[5px] h-[2px] bg-[#1A1C22]/30 rounded-full rotate-[45deg]" />
-              <div className="absolute -bottom-[1px] -right-[1px] w-[5px] h-[2px] bg-[#1A1C22]/30 rounded-full rotate-[-45deg]" />
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="#1A1C22">
-                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-              </svg>
-            </div>
-
-            {/* Streak Pill */}
-            <div className="bg-[#1A1C22] h-[34px] px-3.5 rounded-full flex items-center gap-1.5 shadow-none">
-              <span className="text-[16px] leading-none select-none">🔥</span>
-              <span className="text-white font-extrabold text-[15px] tracking-tight leading-none">
-                12
-              </span>
-            </div>
-
-            {/* Settings Gear Button */}
-            <button
-              type="button"
-              onClick={onOpenSettings}
-              aria-label="Settings"
-              className="btn-press w-[38px] h-[38px] rounded-full border-[1.5px] border-dashed border-[#1A1C22]/50 flex items-center justify-center hover:bg-[#1A1C22]/5 transition-colors focus:outline-none cursor-pointer"
-            >
-              <svg
-                width="19"
-                height="19"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#1A1C22"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="3" />
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-              </svg>
-            </button>
+      {/* ================= MAIN RESPONSIVE CONTAINER ================= */}
+      <div className="relative z-10 flex flex-col justify-between h-full min-h-[100dvh] sm:min-h-0 sm:h-full px-2 pt-2 pb-2 sm:px-4 sm:pt-4 sm:pb-3 select-none overflow-hidden">
+        
+        {/* ================= UPPER SECTION: TOP BAR + PNGs ABOVE HEADING ================= */}
+        {/* Exact positioning of Duo logo, streak pill, settings gear, lock hero, pink heart, starburst, and olive cross */}
+        <div className="relative w-full max-w-[390px] mx-auto h-[286px] flex-shrink-0 select-none">
+          
+          {/* Duo Logo with yellow rays: 57x24 at x 17, y 37 */}
+          <div
+            className="absolute flex items-center justify-center select-none"
+            style={{
+              left: '17px',
+              top: '32px',
+              width: '57px',
+              height: '24px',
+            }}
+          >
+            <img
+              src="/assets/waiting/file_00000000ff448208b79cbefea05e0876.png"
+              alt="Duo"
+              className="w-full h-full object-contain pointer-events-none select-none"
+              draggable={false}
+            />
           </div>
 
-          {/* ================= HERO: LOCK ON YELLOW BLOB WITH RAYS ================= */}
-          <div className="mt-7 flex items-center justify-center relative w-full max-w-[200px] mx-auto h-[160px]">
-            {/* Radiating Yellow Rays */}
-            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-              {/* Ray top-left */}
-              <div className="absolute top-[18px] left-[18px] w-[14px] h-[4px] bg-[#F8D56B] rounded-full rotate-[-40deg]" />
-              {/* Ray mid-left */}
-              <div className="absolute top-[68px] left-[6px] w-[15px] h-[4px] bg-[#F8D56B] rounded-full rotate-[-10deg]" />
-              {/* Ray bottom-left */}
-              <div className="absolute bottom-[24px] left-[16px] w-[14px] h-[4px] bg-[#F8D56B] rounded-full rotate-[35deg]" />
+          {/* Streak Pill: 68x32 at x 161, y 33 */}
+          <div
+            className="absolute flex items-center justify-center gap-1 bg-[#1C1F23] rounded-full select-none"
+            style={{
+              left: '161px',
+              top: '28px',
+              width: '68px',
+              height: '32px',
+            }}
+          >
+            <span className="text-[15px] leading-none select-none ml-1">🔥</span>
+            <span className="text-white font-extrabold text-[16px] leading-none tracking-tight mr-1">
+              12
+            </span>
+          </div>
 
-              {/* Ray top-right */}
-              <div className="absolute top-[18px] right-[18px] w-[14px] h-[4px] bg-[#F8D56B] rounded-full rotate-[40deg]" />
-              {/* Ray mid-right */}
-              <div className="absolute top-[68px] right-[6px] w-[15px] h-[4px] bg-[#F8D56B] rounded-full rotate-[10deg]" />
-              {/* Ray bottom-right */}
-              <div className="absolute bottom-[24px] right-[16px] w-[14px] h-[4px] bg-[#F8D56B] rounded-full rotate-[-35deg]" />
-            </div>
-
-            {/* Organic Yellow Blob */}
+          {/* Settings Button: 36x36 at x 336, y 32 with dashed ink border */}
+          <button
+            type="button"
+            onClick={onOpenSettings}
+            aria-label="Settings"
+            className="btn-press absolute rounded-full border-[1.5px] border-dashed border-[#1C1F23] flex items-center justify-center bg-transparent hover:bg-[#1C1F23]/5 transition-colors cursor-pointer focus:outline-none"
+            style={{
+              left: '336px',
+              top: '26px',
+              width: '36px',
+              height: '36px',
+            }}
+          >
             <svg
-              className="w-[136px] h-[142px] text-[#F8D56B] filter drop-shadow-none"
-              viewBox="0 0 140 146"
-              fill="currentColor"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#1C1F23"
+              strokeWidth="2.1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <path d="M68 6C104 2 128 26 134 58C140 90 120 128 86 138C52 148 18 132 8 100C-2 68 8 20 68 6Z" />
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
             </svg>
+          </button>
 
-            {/* Black Lock Silhouette with Yellow Keyhole */}
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <div className="flex flex-col items-center">
-                {/* Lock Shackle */}
-                <div className="w-[38px] h-[30px] rounded-t-full border-[7.5px] border-[#1A1C22] border-b-0 -mb-[2px]" />
-                {/* Lock Body */}
-                <div className="w-[58px] h-[48px] bg-[#1A1C22] rounded-[15px] flex flex-col items-center justify-center shadow-none">
-                  {/* Yellow Keyhole */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-[8px] h-[8px] rounded-full bg-[#F8D56B]" />
-                    <div className="w-[4px] h-[8px] bg-[#F8D56B] -mt-[1px] rounded-b-[2px]" />
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* 1. Pink Heart (top-left): 65x60 at x 26, y 122 */}
+          <img
+            src="/assets/waiting/file_0000000063908211aaec8f2b04f13fc0.png"
+            alt=""
+            className="absolute object-contain pointer-events-none select-none z-0"
+            style={{
+              left: '26px',
+              top: '122px',
+              width: '65px',
+              height: '60px',
+            }}
+            draggable={false}
+          />
+
+          {/* 2. Blue Starburst (top-right): 69x70 at x 294, y 104 */}
+          <img
+            src="/assets/waiting/file_000000005018820789b75f23f6df0c75.png"
+            alt=""
+            className="absolute object-contain pointer-events-none select-none z-0"
+            style={{
+              left: '294px',
+              top: '104px',
+              width: '69px',
+              height: '70px',
+            }}
+            draggable={false}
+          />
+
+          {/* 3. Olive Cross (mid-right): 60x58 at x 300, y 212 */}
+          <img
+            src="/assets/waiting/file_000000005f3482079b62e3505f080ca7.png"
+            alt=""
+            className="absolute object-contain pointer-events-none select-none z-0"
+            style={{
+              left: '300px',
+              top: '212px',
+              width: '60px',
+              height: '58px',
+            }}
+            draggable={false}
+          />
+
+          {/* 4. Lock Hero (yellow blob + padlock + radiating rays): 190x145, centered on x 195.5, y 125 */}
+          <div
+            className="absolute flex items-center justify-center pointer-events-none select-none z-10"
+            style={{
+              left: '101px',
+              top: '125px',
+              width: '190px',
+              height: '145px',
+            }}
+          >
+            <img
+              src="/assets/waiting/file_00000000eec882118ee77cb44d0263de.png"
+              alt="Answer locked"
+              className="w-full h-full object-contain pointer-events-none select-none"
+              draggable={false}
+            />
           </div>
 
-          {/* Heading */}
-          <div className="mt-3 text-center">
-            <h1 className="text-[38px] sm:text-[42px] font-black text-[#1A1C22] leading-[1.08] tracking-[-0.035em]">
+        </div>
+
+        {/* ================= LOWER SECTION: HEADING -> AVATAR -> BUTTONS ================= */}
+        <div className="flex-1 flex flex-col justify-between items-center w-full max-w-[390px] mx-auto py-1 flex-shrink-0">
+          
+          {/* Heading and Subtitle */}
+          <div className="text-center px-2 flex-shrink-0">
+            <h1 className="text-[34px] sm:text-[38px] font-black text-[#1C1F23] leading-tight tracking-[-0.038em]">
               Answer locked in
             </h1>
-            <p className="mt-1.5 text-[17px] font-bold text-[#1A1C22]/65 tracking-tight">
+            <p className="mt-1 text-[16.5px] sm:text-[18px] font-semibold text-[#1C1F23]/55 tracking-tight">
               Waiting for {friendName}...
             </p>
           </div>
 
-          {/* ================= PLAYER 2 AVATAR STAGE WITH WAITING ARCS ================= */}
-          <div className="mt-7 relative flex items-center justify-center w-full max-w-[200px] mx-auto h-[140px]">
-            {/* 4 Light Blue Waiting Arcs around Avatar */}
-            <svg
-              className="absolute inset-0 w-full h-full text-[#97B4FD]/70 animate-pulse pointer-events-none"
-              viewBox="0 0 140 140"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            >
-              {/* Top-left arc */}
-              <path d="M38 28 C26 38 20 54 20 70" />
-              {/* Top-right arc */}
-              <path d="M102 28 C114 38 120 54 120 70" />
-              {/* Bottom-left arc */}
-              <path d="M24 85 C28 98 38 108 50 116" />
-              {/* Bottom-right arc */}
-              <path d="M116 85 C112 98 102 108 90 116" />
-            </svg>
-
-            {/* Blue Avatar Blob */}
-            <div className="relative w-[100px] h-[100px] flex items-center justify-center">
-              <img
-                src="/assets/blobs/avatar-blob-blue-join.svg"
-                alt="Player 2"
-                className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
-                draggable={false}
-              />
-              <img
-                src="/assets/avatars/avatar-2.png"
-                alt={friendName}
-                className="relative z-10 w-[78%] h-[78%] object-contain pointer-events-none select-none"
-                draggable={false}
-              />
-
-              {/* Waiting Clock Badge */}
-              <div className="absolute -bottom-1 -right-1 w-[28px] h-[28px] rounded-full bg-[#3D404A] border-[2.5px] border-[#FAF6EA] flex items-center justify-center z-20 shadow-none">
-                <svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#FFFFFF"
+          {/* Waiting Avatar with Static 4 Arcs (NO ANIMATION) */}
+          <div className="relative w-[140px] h-[140px] sm:w-[154px] sm:h-[154px] flex items-center justify-center flex-shrink-0">
+            {/* 4 Static Curved Light Blue Arcs */}
+            <div className="absolute inset-0 pointer-events-none select-none">
+              <svg viewBox="0 0 154 154" className="w-full h-full text-[#B5CDFB]" fill="none">
+                <path
+                  d="M 40 26 C 26 38 20 54 20 74"
+                  stroke="currentColor"
                   strokeWidth="2.8"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-              </div>
+                />
+                <path
+                  d="M 114 26 C 128 38 134 54 134 74"
+                  stroke="currentColor"
+                  strokeWidth="2.8"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M 23 96 C 27 114 39 128 56 136"
+                  stroke="currentColor"
+                  strokeWidth="2.8"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M 131 96 C 127 114 115 128 98 136"
+                  stroke="currentColor"
+                  strokeWidth="2.8"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+
+            {/* Waiting Avatar Character PNG */}
+            <div className="relative z-10 w-[114px] h-[117px] flex items-center justify-center">
+              <img
+                src="/assets/waiting/file_00000000dd2c8211aaaa40075fbe3ebf.png"
+                alt={friendName}
+                className="w-full h-full object-contain pointer-events-none select-none"
+                draggable={false}
+              />
             </div>
           </div>
 
-          {/* ================= ACTION BUTTONS ================= */}
-          <div className="mt-8 flex flex-col gap-3 w-full max-w-[342px] mx-auto">
-            {/* Primary: Nudge them 👋 */}
-            <PillButton
-              variant="black"
-              onClick={handleNudge}
-              className="w-full h-[56px] text-[18px] font-bold tracking-tight shadow-none hover:bg-[#2A2C34] transition-all cursor-pointer flex items-center justify-center gap-1.5"
-            >
-              <span>Nudge them</span>
-              <span className={`inline-block ${nudged ? 'animate-bounce' : ''}`}>
-                👋
-              </span>
-            </PillButton>
-
-            {/* Secondary: Edit answer */}
+          {/* Action Buttons & Note */}
+          <div className="w-full max-w-[316px] sm:max-w-[336px] flex flex-col items-center gap-2.5 sm:gap-3 flex-shrink-0">
+            {/* "Nudge them 👋" Button */}
             <button
               type="button"
-              onClick={onEditAnswer}
-              className="btn-press w-full h-[56px] rounded-full font-bold text-[18px] tracking-tight bg-[#FAF6EA] hover:bg-[#F3EEDC] text-[#1A1C22] transition-colors cursor-pointer border border-[#1A1C22]/8"
+              onClick={handleNudge}
+              disabled={nudgeCooldown > 0}
+              className={`btn-press w-full h-[49px] rounded-full font-bold text-[18px] sm:text-[19px] tracking-tight text-white flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                nudgeCooldown > 0
+                  ? 'bg-[#1C1F23]/75 cursor-not-allowed'
+                  : 'bg-[#1C1F23] hover:bg-[#2A2C34]'
+              }`}
+            >
+              <span>{nudgeCooldown > 0 ? `Nudged (${nudgeCooldown}s)` : 'Nudge them'}</span>
+              <span className="text-[19px] leading-none">👋</span>
+            </button>
+
+            {/* "Edit answer" Button */}
+            <button
+              type="button"
+              onClick={handleEditClick}
+              className="btn-press w-full h-[48px] rounded-full font-bold text-[17px] sm:text-[18px] tracking-tight bg-[#FCF7EB] text-[#1C1F23] hover:bg-[#F3EEDC] transition-colors border border-[#1C1F23]/10 cursor-pointer flex items-center justify-center"
             >
               Edit answer
             </button>
-          </div>
 
-          {/* Nudge Confirmation or Footnote */}
-          <p className="mt-4 text-center text-[14px] font-semibold text-[#1A1C22]/60 tracking-tight">
-            {nudged
-              ? `Nudged ${friendName}! (x${nudgeCount}) 👋✨`
-              : 'We’ll tell you when they answer.'}
-          </p>
+            {/* Subtitle Footnote */}
+            <p className="text-[12px] sm:text-[13px] font-medium text-[#1C1F23]/55 text-center tracking-tight mt-0.5">
+              We’ll tell you when they answer.
+            </p>
 
-          {/* Dev helper to simulate player 2 answering */}
-          {onPlayer2Answered && (
-            <div className="mt-3 flex justify-center">
+            {/* Dev Helper Simulation */}
+            {onPlayer2Answered && (
               <button
                 type="button"
                 onClick={onPlayer2Answered}
-                className="text-[11.5px] font-bold text-[#1A1C22]/50 hover:text-[#1A1C22] bg-[#1A1C22]/5 hover:bg-[#1A1C22]/10 px-3 py-1 rounded-full transition-all cursor-pointer"
+                className="text-[11px] font-bold text-[#1C1F23]/40 hover:text-[#1C1F23] bg-[#1C1F23]/5 px-3 py-0.5 rounded-full transition-all cursor-pointer mt-0.5"
               >
-                ⚡ Simulate {friendName} answered
+                ⚡ Simulate friend answered
               </button>
-            </div>
-          )}
+            )}
+          </div>
+
         </div>
 
-        {/* Bottom Navigation Dock */}
-        <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
+        {/* ================= BOTTOM TAB BAR (UNIFIED WAITING VERSION) ================= */}
+        <BottomNav activeTab={activeTab} onTabChange={handleTabChange} className="mb-1" />
+
       </div>
     </Screen>
   );

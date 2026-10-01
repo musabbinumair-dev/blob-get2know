@@ -53,10 +53,16 @@ export function App() {
     return (
       <AnswerLockedScreen
         friendName="Player 2"
-        onEditAnswer={() => setCurrentScreen('today')}
+        onEditAnswer={() => {
+          localStorage.setItem('today_answer_locked', 'false');
+          setCurrentScreen('today');
+        }}
         onOpenSettings={() => setCurrentScreen('welcome')}
         onNavigateTab={(tab: NavTab) => {
           console.log('Navigated to tab:', tab);
+          if (tab === 'today') {
+            setCurrentScreen('locked');
+          }
         }}
         onPlayer2Answered={() => {
           console.log('Player 2 answered');

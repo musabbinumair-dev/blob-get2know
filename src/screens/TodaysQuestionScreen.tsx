@@ -334,7 +334,9 @@ export const TodaysQuestionScreen: React.FC<TodaysQuestionScreenProps> = ({
 
 
         {/* ---------------- BOTTOM NAV ---------------- */}
-        <BottomNav activeTab="today" />
+        <div className="absolute left-[6px] top-[768px] w-[377px] z-30">
+          <BottomNav activeTab="today" />
+        </div>
       </div>
     </div>
   );

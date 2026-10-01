@@ -123,7 +123,7 @@ export const TodayQuestionScreen: React.FC<TodayQuestionScreenProps> = ({
 
 
       {/* ---------------- MAIN CONTENT ---------------- */}
-      <div className="relative z-10 flex flex-col justify-between h-full min-h-[100dvh] pt-8 select-none">
+      <div className="relative z-10 flex flex-col justify-between h-full min-h-[100dvh] sm:min-h-0 sm:h-full pt-6 pb-1 select-none">
         <div className="px-7 sm:px-8">
           {/* Top Bar: Duo Icon | Streak 12 | Settings Gear */}
           <div className="flex items-center justify-between w-full">
@@ -282,7 +282,7 @@ export const TodayQuestionScreen: React.FC<TodayQuestionScreenProps> = ({
         </div>
 
         {/* Bottom Navigation Dock */}
-        <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
+        <BottomNav activeTab={activeTab} onTabChange={handleTabChange} className="mb-1" />
       </div>
     </Screen>
   );
