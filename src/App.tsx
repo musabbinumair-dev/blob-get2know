@@ -5,9 +5,17 @@ import { InviteFriendScreen, generateInviteCode } from './screens/InviteFriendSc
 import { JoinCodeScreen } from './screens/JoinCodeScreen';
 import { TodayQuestionScreen } from './screens/TodayQuestionScreen';
 import { AnswerLockedScreen } from './screens/AnswerLockedScreen';
+import { RevealScreen } from './screens/RevealScreen';
 import { NavTab } from './components/BottomNav';
 
-type ScreenType = 'welcome' | 'create-profile' | 'invite' | 'join-code' | 'today' | 'locked';
+type ScreenType =
+  | 'welcome'
+  | 'create-profile'
+  | 'invite'
+  | 'join-code'
+  | 'today'
+  | 'locked'
+  | 'reveal';
 
 export function App() {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>(() => {
@@ -15,19 +23,42 @@ export function App() {
       const param = new URLSearchParams(window.location.search).get('screen') as ScreenType | null;
       if (
         param &&
-        ['welcome', 'create-profile', 'invite', 'join-code', 'today', 'locked'].includes(param)
+        [
+          'welcome',
+          'create-profile',
+          'invite',
+          'join-code',
+          'today',
+          'locked',
+          'reveal',
+        ].includes(param)
       ) {
         return param;
       }
     }
-    return 'locked';
+    return 'reveal';
   });
+
   const [profile, setProfile] = useState<UserProfile>({
     avatarId: 1,
     name: '',
     color: 'pink',
   });
   const [inviteCode] = useState<string>(() => generateInviteCode());
+
+  // App state for Reveal screen: answers, sync score, match status, and reaction
+  const [player1Answer] = useState<string>('Anchovies on pizza.');
+  const [player2Answer] = useState<string>('Anchovies on pizza.');
+  const [syncScore] = useState<number>(74);
+  const [selectedReaction, setSelectedReaction] = useState<string | null>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('reveal_selected_reaction');
+    }
+    return null;
+  });
+
+  const isMatched =
+    player1Answer.trim().toLowerCase() === player2Answer.trim().toLowerCase();
 
   const handleGetStarted = () => {
     setCurrentScreen('create-profile');
@@ -43,7 +74,6 @@ export function App() {
 
   const handleContinueProfile = (savedProfile: UserProfile) => {
     setProfile(savedProfile);
-    console.log('Saved profile in app state:', savedProfile);
     setCurrentScreen('invite');
   };
 
@@ -51,14 +81,36 @@ export function App() {
     setCurrentScreen('create-profile');
   };
 
-  const handleJoinSuccess = (joinedCode: string) => {
-    console.log('Joined game with code:', joinedCode);
+  const handleJoinSuccess = () => {
     setCurrentScreen('today');
   };
 
   const handleStartTodayFromInvite = () => {
     setCurrentScreen('today');
   };
+
+  if (currentScreen === 'reveal') {
+    return (
+      <RevealScreen
+        player1Name={profile.name || 'Player 1'}
+        player2Name="Player 2"
+        player1Answer={player1Answer}
+        player2Answer={player2Answer}
+        syncScore={syncScore}
+        isMatched={isMatched}
+        selectedReaction={selectedReaction}
+        onSelectReaction={(reactionId) => {
+          setSelectedReaction(reactionId);
+        }}
+        onBack={() => setCurrentScreen('locked')}
+        onNavigateTab={(tab: NavTab) => {
+          if (tab === 'today') {
+            setCurrentScreen('reveal');
+          }
+        }}
+      />
+    );
+  }
 
   if (currentScreen === 'locked') {
     return (
@@ -70,13 +122,12 @@ export function App() {
         }}
         onOpenSettings={() => setCurrentScreen('welcome')}
         onNavigateTab={(tab: NavTab) => {
-          console.log('Navigated to tab:', tab);
           if (tab === 'today') {
             setCurrentScreen('locked');
           }
         }}
         onPlayer2Answered={() => {
-          console.log('Player 2 answered');
+          setCurrentScreen('reveal');
         }}
       />
     );
@@ -87,9 +138,7 @@ export function App() {
       <TodayQuestionScreen
         onOpenSettings={() => setCurrentScreen('welcome')}
         onLockInSuccess={() => setCurrentScreen('locked')}
-        onNavigateTab={(tab: NavTab) => {
-          console.log('Navigated to tab:', tab);
-        }}
+        onNavigateTab={() => {}}
       />
     );
   }
